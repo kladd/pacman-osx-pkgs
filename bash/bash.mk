@@ -5,4 +5,4 @@ bash: bash/PKGBUILD
 	pushd bash; makepkg; popd
 
 clean-bash:
-	pushd bash; $(RM) -r pkg/ src/ *.tar.*; popd
+	pushd bash; $(RM) -r pkg/ src/ *.tar.* *.patch; popd

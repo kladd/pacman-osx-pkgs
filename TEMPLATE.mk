@@ -5,4 +5,4 @@ PKGNAME: PKGNAME/PKGBUILD
 	pushd PKGNAME; makepkg; popd
 
 clean-PKGNAME:
-	pushd PKGNAME; $(RM) -r pkg/ src/ *.tar.*; popd
+	pushd PKGNAME; $(RM) -r pkg/ src/ *.tar.* *.patch; popd
