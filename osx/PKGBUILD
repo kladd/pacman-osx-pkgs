@@ -5,6 +5,7 @@ pkgdesc=''
 arch=('x86_64')
 license=('')
 url=''
+groups=('base')
 
 provides=('gcc=4.2.1'
           'bash=3.2.48'
