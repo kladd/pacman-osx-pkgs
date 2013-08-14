@@ -1,0 +1,47 @@
+# bash
+
+pkgname=bash
+_basever=4.2
+_patchlevel=045
+pkgver=$_basever.$_patchlevel
+pkgrel=1
+pkgdesc='The GNU Bourne Again shell'
+
+arch=('x86_64')
+license=('GPL')
+url='http://www.gnu.org/software/bash/bash.html'
+source=('http://ftpmirror.gnu.org/bash/bash-4.2.tar.gz'
+        'https://gist.github.com/jacknagel/4008180/raw/1509a257060aa94e5349250306cce9eb884c837d/bash-4.2-001-045.patch')
+
+groups=('base')
+backup=(etc/bash.bash{rc,_logout} etc/skel/.bash{rc,_profile,_logout})
+depends=('readline>=6.1')
+provides=('sh')
+
+
+prepare() {
+    pushd ${srcdir}/${pkgname}-$_basever
+
+    msg "applying patch bash-${_basever}-001-$_patchlevel.patch"
+    patch -Np0 -i $srcdir/bash-${_basever}-001-$_patchlevel.patch
+
+    popd
+}
+
+build() {
+    pushd ${srcdir}/${pkgname}-$_basever
+    ./configure --prefix=/usr/local \
+                --with-installed-readline
+    make
+    popd
+}
+
+package() {
+    pushd ${srcdir}/${pkgname}-$_basever
+    make DESTDIR=${pkgdir} install
+
+    popd
+}
+
+md5sums=('3fb927c7c33022f1c327f14a81c0d4b0'
+         'e5af015e91dd5aaf07a5208623f5649a')
