@@ -8,6 +8,7 @@ url=''
 
 provides=('gcc=4.2.1'
           'bash=3.2.48'
-          'ncurses=5.7')
+          'ncurses=5.7'
+          'readline')
 
 # vim:set ts=2 sw=2 et:
