@@ -1,0 +1,12 @@
+pkgname=osx
+pkgver=10.8.4
+pkgrel=1
+pkgdesc=''
+arch=('x86_64')
+license=('')
+url=''
+
+provides=('gcc=4.2.1'
+          'bash=3.2.48')
+
+# vim:set ts=2 sw=2 et:
