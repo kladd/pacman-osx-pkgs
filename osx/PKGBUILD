@@ -8,7 +8,6 @@ url=''
 groups=('base')
 
 provides=('gcc=4.2.1'
-          'bash=3.2.48'
           'ncurses=5.7'
           'readline=6.0')
 
