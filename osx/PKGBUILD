@@ -1,7 +1,7 @@
 pkgname=osx
 pkgver=10.8.4
-pkgrel=2
-pkgdesc=''
+pkgrel=3
+pkgdesc='Packages included in OS X'
 arch=('x86_64')
 license=('')
 url=''
@@ -11,4 +11,3 @@ provides=('gcc=4.2.1'
           'ncurses=5.7'
           'readline=6.0')
 
-# vim:set ts=2 sw=2 et:
