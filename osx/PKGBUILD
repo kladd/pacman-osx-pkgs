@@ -9,5 +9,6 @@ groups=('base')
 
 provides=('gcc=4.2.1'
           'ncurses=5.7'
-          'readline=6.0')
+          'readline=6.0'
+          'curl=7.24.0')
 
