@@ -2,7 +2,7 @@
 
 if [ $1 ]; then
     cp TEMPLATE.mk $1/$1.mk
-    pushd $pkg
+    pushd $1
     sed -i.bak "s/PKGNAME/$1/g" $1.mk
     rm *.bak
     popd
