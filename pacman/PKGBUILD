@@ -1,0 +1,56 @@
+# vim: set ts=2 sw=2 et:
+# $Id$
+# Maintainer: Dan McGee <dan@archlinux.org>
+# Maintainer: Dave Reisner <dreisner@archlinux.org>
+
+pkgname=pacman
+pkgver=4.1.2
+pkgrel=3
+pkgdesc="A library-based package manager with dependency support"
+arch=('i686' 'x86_64')
+url="http://www.archlinux.org/pacman/"
+license=('GPL')
+groups=('base' 'base-devel')
+depends=('bash>=4.2.042-2' 'curl>=7.19.4')
+# depends=('bash>=4.2.042-2' 'libarchive>=3.1.2' 'curl>=7.19.4')
+optdepends=('fakeroot: for makepkg usage as normal user')
+provides=('pacman-contrib')
+conflicts=('pacman-contrib')
+replaces=('pacman-contrib')
+backup=(etc/pacman.conf etc/makepkg.conf)
+options=(!libtool)
+source=(ftp://ftp.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz
+        $pkgname.patch)
+
+prepare() {
+  pushd $srcdir/$pkgname-$pkgver
+  msg "applying patch pacman.patch"
+  patch -Np1 -i $srcdir/pacman.patch
+  popd
+}
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+  export LIBARCHIVE_CFLAGS="-I/opt/libarchive/include"
+  export LIBARCHIVE_LIBS="-larchive"
+  export LIBCURL_CFLAGS="-I/usr/include/curl"
+  export LIBCURL_LIBS="-lcurl"
+
+  ./configure --prefix=/usr/local \
+    --enable-doc --with-scriptlet-shell=/usr/local/bin/bash \
+    --with-ldconfig=/usr/local/bin/ldconfig \
+    --with-curl
+
+  make
+  make -C contrib
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+  make DESTDIR=$pkgdir install
+  make DESTDIR=$pkgdir -C contrib install
+}
+
+md5sums=('063c8b0ff6bdf903dc235445525627cd'
+         'b725c0096796803b7916793f84960f6b')

@@ -1,0 +1,14 @@
+diff --git a/lib/libalpm/be_sync.c b/lib/libalpm/be_sync.c
+index f9fd5d1..ca37145 100644
+--- a/lib/libalpm/be_sync.c
++++ b/lib/libalpm/be_sync.c
+@@ -23,6 +23,9 @@
+ #include <sys/stat.h>
+ #include <fcntl.h>
+ #include <unistd.h>
++#ifdef __APPLE__
++  #include <limits.h>
++#endif
+ 
+ /* libarchive */
+ #include <archive.h>
