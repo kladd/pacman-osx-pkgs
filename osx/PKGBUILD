@@ -1,6 +1,6 @@
 pkgname=osx
 pkgver=10.8.4
-pkgrel=3
+pkgrel=4
 pkgdesc='Packages included in OS X'
 arch=('x86_64')
 license=('')
@@ -10,5 +10,6 @@ groups=('base')
 provides=('gcc=4.2.1'
           'ncurses=5.7'
           'readline=6.0'
-          'curl=7.24.0')
+          'curl=7.24.0'
+          'python2')
 
