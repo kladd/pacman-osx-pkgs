@@ -13,4 +13,5 @@ provides=('gcc=4.2.1'
           'curl=7.24.0'
           'python2'
           'bzip2=1.0.6'
-          'awk')
+          'awk'
+          'libldap')
