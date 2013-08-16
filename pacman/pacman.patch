@@ -1,3 +1,16 @@
+diff --git a/etc/makepkg.conf.in b/etc/makepkg.conf.in
+index 43a6cf2..06057dc 100644
+--- a/etc/makepkg.conf.in
++++ b/etc/makepkg.conf.in
+@@ -93,7 +93,7 @@ MAN_DIRS=({usr{,/local}{,/share},opt/*}/{man,info})
+ #-- Doc directories to remove (if !docs is specified)
+ DOC_DIRS=(usr/{,local/}{,share/}{doc,gtk-doc} opt/*/{doc,gtk-doc})
+ #-- Files to be removed from all packages (if purge is specified)
+-PURGE_TARGETS=(usr/{,share}/info/dir .packlist *.pod)
++PURGE_TARGETS=(usr/{,local/}{,share}/info/dir{,.gz} .packlist *.pod)
+ 
+ #########################################################################
+ # PACKAGE OUTPUT
 diff --git a/lib/libalpm/be_sync.c b/lib/libalpm/be_sync.c
 index f9fd5d1..ca37145 100644
 --- a/lib/libalpm/be_sync.c
