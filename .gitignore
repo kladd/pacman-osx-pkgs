@@ -2,3 +2,4 @@
 *.tar.bz2
 src/
 pkg/
+bash/*.patch
