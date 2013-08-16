@@ -11,5 +11,6 @@ provides=('gcc=4.2.1'
           'ncurses=5.7'
           'readline=6.0'
           'curl=7.24.0'
-          'python2')
+          'python2'
+          'bzip2=1.0.6')
 
