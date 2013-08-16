@@ -3,3 +3,4 @@
 src/
 pkg/
 bash/*.patch
+readline/readline[0-9+]*
