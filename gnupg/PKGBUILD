@@ -15,30 +15,32 @@ optdepends=('curl: gpg2keys_curl'
             'libldap: gpg2keys_ldap')
 makedepends=('curl' 'libldap')
 depends=('bzip2' 'libksba' 'libgcrypt' 'pth' 'libassuan' 'readline' 'pinentry' 'dirmngr')
-source=("ftp://ftp.gnupg.org/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-sha1sums=('7ddfefa37ee9da89a8aaa8f9059d251b4cd02562')
+source=("ftp://ftp.gnupg.org/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2"
+        "${pkgname}.patch")
 
 prepare() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
+    patch -Np1 -i ${srcdir}/${pkgname}.patch
 }
 
 build() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
+
+    export LDFLAGS="$LDFLAGS -lresolv"
+
 	./configure \
 		--prefix=/usr/local \
 		--sysconfdir=/usr/local/etc \
 		--sbindir=/usr/local/bin \
 		--libexecdir=/usr/local/lib/gnupg \
-		--enable-maintainer-mode \
-		--enable-symcryptrun \
-		--enable-gpgtar \
+		--enable-symcryptrun
 
 	make
 }
 
 check() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
-	make check
+#	make check
 }
 
 package() {
@@ -48,3 +50,5 @@ package() {
 	ln -s gpgv2 "${pkgdir}"/usr/local/bin/gpgv
 	ln -s gpg2.1.gz "${pkgdir}"/usr/local/share/man/man1/gpg.1.gz
 }
+md5sums=('9d18ee71bb0b10d40d1c8a393bdd7a89'
+         'b854de63f32e17076fee45abc4db30c0')
