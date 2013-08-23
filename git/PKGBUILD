@@ -1,0 +1,68 @@
+# $Id$
+# Maintainer: Dan McGee <dan@archlinux.org>
+
+pkgname=git
+pkgver=1.8.3.4
+pkgrel=1
+pkgdesc="the fast distributed version control system"
+arch=(i686 x86_64)
+url="http://git-scm.com/"
+license=('GPL2')
+depends=('curl' 'gettext' 'pcre')
+makedepends=('python2')
+replaces=('git-core')
+provides=('git-core')
+install=git.install
+source=("http://git-core.googlecode.com/files/git-$pkgver.tar.gz"
+        "http://git-core.googlecode.com/files/git-manpages-$pkgver.tar.gz")
+
+build() {
+  export PYTHON_PATH='/usr/bin/python'
+
+  cd "$srcdir/$pkgname-$pkgver"
+
+  make prefix=/usr/local gitexecdir=/usr/local/lib/git-core \
+    CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
+    USE_LIBPCRE=1 \
+    NO_CROSS_DIRECTORY_HARDLINKS=1 \
+    all
+
+  make -C contrib/credential/osxkeychain
+}
+
+package() {
+  export PYTHON_PATH='/usr/bin/python'
+  cd "$srcdir/$pkgname-$pkgver"
+  make prefix=/usr/local gitexecdir=/usr/local/lib/git-core \
+    CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
+    USE_LIBPCRE=1 \
+    NO_CROSS_DIRECTORY_HARDLINKS=1 \
+    INSTALLDIRS=vendor DESTDIR="$pkgdir" install
+
+  # bash completion
+  mkdir -p "$pkgdir"/usr/local/share/bash-completion/completions/
+  install -m644 ./contrib/completion/git-completion.bash "$pkgdir"/usr/local/share/bash-completion/completions/git
+  # fancy git prompt
+  mkdir -p "$pkgdir"/usr/local/share/git/
+  install -m644 ./contrib/completion/git-prompt.sh "$pkgdir"/usr/local/share/git/git-prompt.sh
+  # OS X keychain credentials helper
+  install -m755 contrib/credential/osxkeychain/git-credential-osxkeychain \
+      "$pkgdir"/usr/local/lib/git-core/git-credential-osxkeychain
+  make -C contrib/credential/osxkeychain clean
+  # the rest of the contrib stuff
+  cp -a ./contrib/* $pkgdir/usr/local/share/git/
+
+  # how 'bout some manpages?
+  for mansect in man1 man5 man7; do
+    for manpage in "$srcdir"/$mansect/*; do
+      mkdir -p "$pkgdir"/usr/share/man/$mansect
+      install -m644 $manpage "$pkgdir"/usr/share/man/$mansect/$(basename $manpage)
+    done
+  done
+
+  # remove perllocal.pod, .packlist, and empty directories.
+  rm -rf "$pkgdir"/usr/local/lib/perl5
+}
+
+md5sums=('80eec3201a5d012913d287b85adaee8e'
+         '86fd812754d25201fd72c7476045dfec')
