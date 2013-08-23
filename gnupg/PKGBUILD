@@ -51,4 +51,4 @@ package() {
 	ln -s gpg2.1.gz "${pkgdir}"/usr/local/share/man/man1/gpg.1.gz
 }
 md5sums=('9d18ee71bb0b10d40d1c8a393bdd7a89'
-         'b854de63f32e17076fee45abc4db30c0')
+         'd40cf3b1470ff0b4c8cb94006ce8e3d0')

@@ -7,7 +7,7 @@ index 5adf46a..d0c5dec 100644
    return name;
  #else /*!HAVE_W32_SYSTEM*/
 -  return "/var/run/dirmngr/socket";
-+  return "HOMEBREW_PREFIX/var/run/dirmngr/socket";
++  return "/usr/local/var/run/dirmngr/socket";
  #endif /*!HAVE_W32_SYSTEM*/
  }
  
