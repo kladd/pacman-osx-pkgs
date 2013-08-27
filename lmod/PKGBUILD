@@ -4,13 +4,14 @@ _author="Robert McLay"
 
 pkgname=lmod
 pkgver=5.1.1
-pkgrel=1
+pkgrel=3
 pkgdesc="Evironmental Modules System"
 arch=('x86_64')
 license=('MIT')
 conflicts=('lmod')
 depends=('lua>=5.2.0' 'lua-posix' 'lua-filesystem')
 # makedepends=('rsync')
+install=$pkgname.install
 provides=('lmod')
 url="http://www.tacc.utexas.edu/tacc-projects/mclay/lmod"
 source=(http://downloads.sourceforge.net/project/lmod/Lmod-$pkgver.tar.bz2)
