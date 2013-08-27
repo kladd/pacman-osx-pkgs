@@ -1,0 +1,44 @@
+# $Id$
+# Maintainer: Sébastien Luttringer
+# Contributor: SpepS <dreamspepser at yahoo dot it>
+# Contributor: Laszlo Papp <djszapi at archlinux us>
+# Contributor: Donald Ephraim Curtis <dcurtis@gmail.com>
+
+pkgbase=luaposix
+pkgname=('lua-posix')
+pkgver=29
+pkgrel=1
+pkgdesc='A POSIX library for Lua programming language'
+arch=('i686' 'x86_64')
+url='https://github.com/luaposix/luaposix'
+license=('GPL' 'LGPL')
+makedepends=('lua' 'git')
+options=('!libtool')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/luaposix/luaposix/archive/v$pkgver.tar.gz")
+md5sums=('5c3e49c51caeee6eb5f9dcb2bb082bed')
+
+prepare() {
+  # do bootstrap in prepare, as it clone external git
+  (cd $pkgbase-$pkgver && ./bootstrap)
+}
+
+build() {
+  msg2 'Build with lua 5.2'
+  cd $pkgbase-$pkgver
+  ./configure \
+      LUA=/usr/local/bin/lua \
+      --prefix=/usr/local \
+      --libdir=/usr/local/lib/lua/5.2 \
+      --datadir=/usr/local/share/lua/5.2 \
+      --docdir=/usr/local/share/doc/lua-posix
+  make
+}
+
+package_lua-posix() {
+  depends=('lua')
+
+  cd $pkgbase-$pkgver
+  make DESTDIR="$pkgdir/" install
+}
+
+# vim:set ts=2 sw=2 et:
