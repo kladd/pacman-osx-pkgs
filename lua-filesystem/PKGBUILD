@@ -1,0 +1,36 @@
+# $Id$
+# Maintainer: Chris Brannon <cmbrannon79@gmail.com>
+# Contributor: Paulo Matias <matiasΘarchlinux-br·org>
+# Contributor: Anders Bergh <anders1@gmail.com>
+
+pkgbase=luafilesystem
+pkgname='lua-filesystem'
+pkgver=1.6.2
+pkgrel=4
+pkgdesc='File System Library for the Lua Programming Language'
+arch=('i686' 'x86_64')
+depends=('lua')
+url='http://www.keplerproject.org/luafilesystem/'
+license=('MIT')
+makedepends=(lua)
+source=(http://github.com/downloads/keplerproject/$pkgbase/$pkgbase-$pkgver.tar.gz
+        LICENSE)
+md5sums=('4e7ec93678c760c4e42cea7d28aafa13'
+         'beb2b58c4b5c2782304a5b0267a5651b')
+
+build() {
+  cd "$srcdir/$pkgbase-$pkgver"
+  make \
+    LIB_OPTION="-bundle -undefined dynamic_lookup" \
+    LUA_LIBDIR="$pkgdir/usr/local/lib/lua/5.2"
+}
+
+package() {
+cd $pkgbase-$pkgver
+  make \
+    LIB_OPTION="-bundle -undefined dynamic_lookup" \
+    LUA_LIBDIR="$pkgdir/usr/local/lib/lua/5.2" \
+    install
+  mkdir -p $pkgdir/usr/local/share/licenses/$pkgname
+  install -m644 $srcdir/LICENSE $pkgdir/usr/local/share/licenses/$pkgname/LICENSE
+}
