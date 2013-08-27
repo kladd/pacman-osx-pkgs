@@ -3,7 +3,7 @@
 
 pkgname=git
 pkgver=1.8.3.4
-pkgrel=1
+pkgrel=2
 pkgdesc="the fast distributed version control system"
 arch=(i686 x86_64)
 url="http://git-scm.com/"
@@ -40,11 +40,11 @@ package() {
     INSTALLDIRS=vendor DESTDIR="$pkgdir" install
 
   # bash completion
-  mkdir -p "$pkgdir"/usr/local/share/bash-completion/completions/
-  install -m644 ./contrib/completion/git-completion.bash "$pkgdir"/usr/local/share/bash-completion/completions/git
+  mkdir -p "$pkgdir"/usr/local/etc/bash_completion.d/
+  install -m644 ./contrib/completion/git-completion.bash "$pkgdir"/usr/local/etc/bash_completion.d/git
   # fancy git prompt
   mkdir -p "$pkgdir"/usr/local/share/git/
-  install -m644 ./contrib/completion/git-prompt.sh "$pkgdir"/usr/local/share/git/git-prompt.sh
+  install -m644 ./contrib/completion/git-prompt.sh "$pkgdir"/usr/local/etc/bash_completion.d/git-prompt.sh
   # OS X keychain credentials helper
   install -m755 contrib/credential/osxkeychain/git-credential-osxkeychain \
       "$pkgdir"/usr/local/lib/git-core/git-credential-osxkeychain
