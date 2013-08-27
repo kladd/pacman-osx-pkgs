@@ -1,0 +1,37 @@
+# Maintainer: Kyle Ladd <laddkyle@msu.edu>
+
+_author="Robert McLay"
+
+pkgname=lmod
+pkgver=5.1.1
+pkgrel=1
+pkgdesc="Evironmental Modules System"
+arch=('x86_64')
+license=('MIT')
+conflicts=('lmod')
+depends=('lua>=5.2.0' 'lua-posix' 'lua-filesystem')
+# makedepends=('rsync')
+provides=('lmod')
+url="http://www.tacc.utexas.edu/tacc-projects/mclay/lmod"
+source=(http://downloads.sourceforge.net/project/lmod/Lmod-$pkgver.tar.bz2)
+md5sums=('362723c4af7218dee7b7162c73909b93')
+
+build() {
+    cd "$srcdir/Lmod-$pkgver"
+
+    ./configure --prefix=/usr/local/opt \
+                --with-spiderCacheDir=/usr/local/opt/lmod/lmod/cache
+    make
+}
+
+package() {
+    cd "$srcdir/Lmod-$pkgver"
+
+    make DESTDIR="$pkgdir" install
+
+    cd "$pkgdir"
+    mkdir -p etc/profile.d
+    echo 'export BASH_ENV="/opt/software/lmod/lmod/init/bash"' \
+        > $pkgname.sh
+    install -m755 "$pkgdir/$pkgname.sh" etc/profile.d/$pkgname.sh
+}
