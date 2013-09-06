@@ -5,7 +5,7 @@
 
 pkgname=pacman
 pkgver=4.1.2
-pkgrel=1
+pkgrel=2
 pkgdesc="A library-based package manager with dependency support"
 arch=('i686' 'x86_64')
 url="http://www.archlinux.org/pacman/"
@@ -19,13 +19,12 @@ conflicts=('pacman-contrib')
 replaces=('pacman-contrib')
 # backup=(usr/local/etc/pacman.conf usr/local/etc/makepkg.conf)
 options=(!libtool)
-source=(ftp://ftp.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz
-        $pkgname.patch)
+source=(ftp://ftp.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz)
 
 prepare() {
   pushd $srcdir/$pkgname-$pkgver
-  msg "applying patch pacman.patch"
-  patch -Np1 -i $srcdir/pacman.patch
+  # msg "applying patch pacman.patch"
+  # patch -Np1 -i $srcdir/pacman.patch
   popd
 }
 
@@ -38,9 +37,10 @@ build() {
   export LIBCURL_LIBS="-lcurl"
 
   ./configure --prefix=/usr/local \
-    --enable-doc --with-scriptlet-shell=/usr/local/bin/bash \
-    --with-ldconfig=/usr/local/bin/ldconfig \
-    --with-curl
+              --enable-doc \
+              --with-scriptlet-shell=/usr/local/bin/bash \
+              --with-ldconfig=/usr/local/bin/ldconfig \
+              --with-curl
 
   make
   make -C contrib
