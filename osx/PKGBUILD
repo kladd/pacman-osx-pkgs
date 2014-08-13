@@ -1,5 +1,5 @@
 pkgname=osx
-pkgver=10.8.4
+pkgver=10.10
 pkgrel=1
 pkgdesc='Packages included in OS X'
 arch=('x86_64')
@@ -10,7 +10,7 @@ groups=('base')
 provides=('gcc=4.2.1'
           'ncurses=5.7'
           'readline=6.0'
-          'curl=7.24.0'
+          'curl=7.30.0'
           'python2'
           'bzip2=1.0.6'
           'awk'
