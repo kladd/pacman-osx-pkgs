@@ -1,8 +1,8 @@
 # bash
 
 pkgname=bash
-_basever=4.2
-_patchlevel=045
+_basever=4.3
+_patchlevel=22
 pkgver=$_basever.$_patchlevel
 pkgrel=1
 pkgdesc='The GNU Bourne Again shell'
@@ -10,26 +10,26 @@ pkgdesc='The GNU Bourne Again shell'
 arch=('x86_64')
 license=('GPL')
 url='http://www.gnu.org/software/bash/bash.html'
-source=('http://ftpmirror.gnu.org/bash/bash-4.2.tar.gz'
-        'https://gist.github.com/jacknagel/4008180/raw/1509a257060aa94e5349250306cce9eb884c837d/bash-4.2-001-045.patch')
+source=('http://ftpmirror.gnu.org/bash/bash-4.3.tar.gz'
+        'https://gist.githubusercontent.com/jacknagel/c1cf23775c774e2b4b6d/raw/abd9bd4289bb443684ba26d5a2d3fb9449bbfa90/bash-4.3.22.diff')
 
 groups=('base')
-backup=(etc/bash.bash{rc,_logout} etc/skel/.bash{rc,_profile,_logout})
-depends=('readline>=6.1')
+backup=(usr/local/etc/bash.bash{rc,_logout}
+        usr/local/etc/skel/.bash{rc,_profile,_logout})
+depends=('readline>=6.3')
 provides=('sh')
 
 
 prepare() {
-    pushd ${srcdir}/${pkgname}-$_basever
+    pushd ${srcdir}/${pkgname}-$_basever > /dev/null
 
-    msg "applying patch bash-${_basever}-001-$_patchlevel.patch"
-    patch -Np0 -i $srcdir/bash-${_basever}-001-$_patchlevel.patch
+    patch -Np1 -i ${srcdir}/bash-$pkgver.diff
 
     popd
 }
 
 build() {
-    pushd ${srcdir}/${pkgname}-$_basever
+    pushd ${srcdir}/${pkgname}-$_basever > /dev/null
     ./configure --prefix=/usr/local \
                 --with-installed-readline
     make
@@ -37,11 +37,10 @@ build() {
 }
 
 package() {
-    pushd ${srcdir}/${pkgname}-$_basever
+    pushd ${srcdir}/${pkgname}-$_basever > /dev/null
     make DESTDIR=${pkgdir} install
-
     popd
 }
 
-md5sums=('3fb927c7c33022f1c327f14a81c0d4b0'
-         'e5af015e91dd5aaf07a5208623f5649a')
+md5sums=('81348932d5da294953e15d4814c74dd1'
+         '4f4cea522910768c18c48878b21fa781')

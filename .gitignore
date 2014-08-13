@@ -2,5 +2,5 @@
 *.tar.bz2
 src/
 pkg/
-bash/*.patch
+bash/*.diff
 readline/readline[0-9+]*
