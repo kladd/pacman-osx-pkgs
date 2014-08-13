@@ -1,9 +1,0 @@
-
-post_install() {
-	[[ -e /usr/local/etc/profile.d/lmod ]] && rm /usr/local/etc/profile.d/lmod
-	ln -s /usr/local/opt/lmod/lmod/init/bash /usr/local/etc/profile.d/lmod
-}
-
-post_upgrade() {
-	post_install
-}
