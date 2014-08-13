@@ -1,32 +1,24 @@
-# vim: set ts=2 sw=2 et:
-# $Id$
-# Maintainer: Dan McGee <dan@archlinux.org>
-# Maintainer: Dave Reisner <dreisner@archlinux.org>
+#pacman
 
 pkgname=pacman
 pkgver=4.1.2
-pkgrel=2
+pkgrel=1
 pkgdesc="A library-based package manager with dependency support"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="http://www.archlinux.org/pacman/"
 license=('GPL')
 groups=('base' 'base-devel')
 depends=('bash>=4.2.042-2' 'curl>=7.19.4')
-# depends=('bash>=4.2.042-2' 'libarchive>=3.1.2' 'curl>=7.19.4')
 optdepends=('fakeroot: for makepkg usage as normal user')
 provides=('pacman-contrib')
 conflicts=('pacman-contrib')
 replaces=('pacman-contrib')
-# backup=(usr/local/etc/pacman.conf usr/local/etc/makepkg.conf)
+backup=(usr/local/etc/pacman.conf usr/local/etc/makepkg.conf)
 options=(!libtool)
-source=(ftp://ftp.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz)
-
-prepare() {
-  pushd $srcdir/$pkgname-$pkgver
-  # msg "applying patch pacman.patch"
-  # patch -Np1 -i $srcdir/pacman.patch
-  popd
-}
+source=(ftp://ftp.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz
+        pacman.conf
+        makepkg.conf
+        makepkg.patch)
 
 build() {
   cd $srcdir/$pkgname-$pkgver
@@ -38,6 +30,7 @@ build() {
 
   ./configure --prefix=/usr/local \
               --enable-doc \
+              --sysconfdir=/usr/local/etc \
               --with-scriptlet-shell=/usr/local/bin/bash \
               --with-ldconfig=/usr/local/bin/ldconfig \
               --with-curl
@@ -48,8 +41,23 @@ build() {
 
 package() {
   cd $srcdir/$pkgname-$pkgver
+
   make DESTDIR=$pkgdir install
   make DESTDIR=$pkgdir -C contrib install
+
+  install -m644 "$srcdir/pacman.conf" "$pkgdir/usr/local/etc"
+  install -m644 "$srcdir/makepkg.conf" "$pkgdir/usr/local/etc"
+  mkdir -p $pkgdir/usr/local/share/vim/vimfiles/syntax
+  install -m644 contrib/PKGBUILD.vim \
+    "$pkgdir/usr/local/share/vim/vimfiles/syntax"
+
+  cd $pkgdir
+  patch -Np1 < $srcdir/makepkg.patch
 }
+
 md5sums=('063c8b0ff6bdf903dc235445525627cd'
-         '82a97ee30d432dcb6ab7a3ca59f1565a')
+         'c0ddc419ad236ef67f57bcb2fbc97f14'
+         '46ff731b6f3fc1ec8088739b4a0b3efc'
+         'cf26ba7d8e973c1ace0d20a5a790aa95')
+
+# vim: set ts=2 sw=2 et:

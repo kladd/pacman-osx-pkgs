@@ -1,0 +1,14 @@
+--- /usr/local/bin/makepkg	2014-08-12 20:34:56.000000000 -0400
++++ pkg/bin/makepkg	2014-08-12 20:36:20.000000000 -0400
+@@ -2886,11 +2886,6 @@ ownership of the packaged files. Try usi
+ placing %s in the %s array in %s.")" "makepkg" "fakeroot" "'fakeroot'" "BUILDENV" "$MAKEPKG_CONF"
+ 		sleep 1
+ 	fi
+-else
+-	if [[ -z $FAKEROOTKEY ]]; then
+-		error "$(gettext "Do not use the %s option. This option is only for use by %s.")" "'-F'" "makepkg"
+-		exit 1 # TODO: error code
+-	fi
+ fi
+ 
+ unset pkgname pkgbase pkgver pkgrel epoch pkgdesc url license groups provides
