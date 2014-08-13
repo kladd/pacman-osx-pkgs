@@ -1,0 +1,30 @@
+# darwin-fakeroot
+
+pkgname=darwin-fakeroot
+pkgver=1.1
+pkgrel=1
+pkgdesc='Tool for simulating superuser privileges'
+arch=('x86_64')
+url="https://github.com/duskwuff/darwin-fakeroot"
+groups=('base-devel')
+depends=('osx')
+source=(https://github.com/duskwuff/darwin-fakeroot/archive/v1.1.tar.gz
+        darwin-fakeroot.patch)
+provides=(fakeroot)
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+  patch -Np0 < $srcdir/darwin-fakeroot.patch
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+  make install PREFIX=$pkgdir/usr/local
+
+  mkdir -p $pkgdir/usr/local/share/licenses/darwin-fakeroot
+  mv COPYING $pkgdir/usr/local/share/licenses/darwin-fakeroot/LICENSE
+}
+
+md5sums=('31c96c84a2a21d2e64ba9a3ecdd21c41'
+         '17b4d77e3e5a6882b64c3c52a588f00f')

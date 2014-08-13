@@ -1,0 +1,19 @@
+--- libfakeroot.c	2012-06-03 21:58:03.000000000 -0400
++++ libfakeroot.c	2014-08-12 21:03:01.000000000 -0400
+@@ -11,8 +11,6 @@
+ 
+ #include "communicate.h"
+ 
+-void cthread_set_errno_self(int error); // Libc SPI
+-
+ static int uid = 0, euid = 0, gid = 0, egid = 0;
+ 
+ static int comm_fd;
+@@ -462,7 +460,6 @@ syscall_return_t libfakeroot_sysenter_ho
+     }
+ 
+     if(error) {
+-        cthread_set_errno_self(error);
+         return (syscall_return_t) {-1, -1};
+     } else {
+         return (syscall_return_t) {result, result2};
