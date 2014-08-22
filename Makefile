@@ -3,7 +3,7 @@
 # builds any and all packages
 #
 
-PKGS := $(shell ls -d */|sed "s/\///")
+PKGS := core
 
 include $(foreach pkg, $(PKGS), $(shell echo "$(pkg)/$(pkg).mk"))
 
