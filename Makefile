@@ -3,7 +3,7 @@
 # builds any and all packages
 #
 
-PKGS := core
+PKGS := core extra
 
 include $(foreach pkg, $(PKGS), $(shell echo "$(pkg)/$(pkg).mk"))
 
